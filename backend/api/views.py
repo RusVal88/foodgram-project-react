@@ -151,8 +151,9 @@ class RecipeViewSet(ModelViewSet):
         return RecipeCreateUpdateSerializer
 
     @action(
-            methods=('POST', 'DELETE'),
-            detail=True)
+        methods=('POST', 'DELETE'),
+        detail=True
+    )
     def favorite(self, request, pk=None):
         user = self.request.user
         recipe = get_object_or_404(Recipe, pk=pk)
@@ -203,8 +204,8 @@ class RecipeViewSet(ModelViewSet):
         )
 
     @action(
-            methods=['POST', 'DELETE'],
-            detail=True
+        methods=['POST', 'DELETE'],
+        detail=True
     )
     def shopping_cart(self, request, pk=None):
         user = self.request.user
@@ -254,9 +255,9 @@ class RecipeViewSet(ModelViewSet):
         )
 
     @action(
-            methods=['GET'],
-            detail=False,
-            permission_classes=[IsAuthenticated]
+        methods=['GET'],
+        detail=False,
+        permission_classes=[IsAuthenticated]
     )
     def download_shopping_cart(self, request):
         shopping_cart_items = ShoppingCart.objects.filter(
@@ -266,10 +267,10 @@ class RecipeViewSet(ModelViewSet):
             recipe__shopping_cart__in=shopping_cart_items
         ).order_by(
             'ingredient__name'
-            ).values(
+        ).values(
             'ingredient__name',
             'ingredient__measurement_unit'
-            ).annotate(
+        ).annotate(
             amount=Sum('amount'))
         ingredients_text = ''
         for ingredient in ingredients:
@@ -281,5 +282,5 @@ class RecipeViewSet(ModelViewSet):
         response = HttpResponse(ingredients_text, content_type='text/plain')
         response[
             'Content-Disposition'
-            ] = 'attachment; filename=shopping-cart.txt'
+        ] = 'attachment; filename=shopping-cart.txt'
         return response

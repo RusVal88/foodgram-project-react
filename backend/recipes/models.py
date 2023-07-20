@@ -54,7 +54,7 @@ class Tag(models.Model):
         help_text='Укажите slug тега!',
         max_length=200,
         unique=True,
-        validators=[validate_slug,],
+        validators=[validate_slug],
     )
 
     class Meta:
@@ -139,7 +139,7 @@ class IngredientQuantity(models.Model):
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество ингредиента',
         help_text='Укажите количество ингредиента!',
-        validators=[validate_amount,],
+        validators=[validate_amount],
     )
 
     class Meta:
