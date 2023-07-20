@@ -1,0 +1,771 @@
+# Список пользователей.
+GET  http://127.0.0.1:8000/api/users/
+Content-Type: application/json
+
+###
+# Регистрация нового пользователя.
+POST http://127.0.0.1:8000/api/users/
+Content-Type: application/json
+
+{
+"email": "pingvinov@yandex.com",
+"username": "kawalski",
+"first_name": "Ибрагим",
+"last_name": "Велосипедов",
+"password": "12345abc!"
+}
+
+###
+# Проверка на отстуствие обязательных полей или
+# их некорректность,
+# а также на регистрацию с уже существющими email и username.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/users/
+Content-Type: application/json
+
+{
+
+}
+
+###
+POST http://127.0.0.1:8000/api/users/
+Content-Type: application/json
+
+{
+"email": "podushkin@yandex.com",
+"username": "me",
+"first_name": "Artem",
+"last_name": "Podushkin",
+"password": "12345ab!"
+}
+
+###
+POST http://127.0.0.1:8000/api/users/
+Content-Type: application/json
+
+{
+"email": "pugovkin@yandex.com",
+"username": "pugovica///otoRvaNnayA###",
+"first_name": "Artem////pUgoVica###",
+"last_name": "Pugovkin///pUgoVica###",
+"password": "12345ab!"
+}
+
+###
+POST http://127.0.0.1:8000/api/users/
+Content-Type: application/json
+
+{
+"email": "egorov@yandex.com",
+"username": "egdim",
+"first_name": "Vadim",
+"last_name": "Egorov",
+"password": "12345abc!"
+}
+
+###
+# Получение токена авторизации.
+POST http://127.0.0.1:8000/api/auth/token/login/
+Content-Type: application/json
+
+{
+"email": "pingvinov@yandex.com",
+"password": "12345abc!"
+}
+
+###
+# Удаление токена.
+POST http://127.0.0.1:8000/api/auth/token/logout/
+Content-Type: application/json
+Authorization: Token 2dd29b0dd3823de31f642116da8cfb1b6f31af72
+
+###
+# Проверка на удаления токена неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+POST http://127.0.0.1:8000/api/auth/token/logout/
+Content-Type: application/json
+
+###
+# Профиль пользователя.
+GET  http://127.0.0.1:8000/api/users/1/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+###
+# Проверка на запрос неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+GET  http://127.0.0.1:8000/api/users/1/
+Content-Type: application/json
+
+###
+# Проверка запроса на несуществующего пользователя.
+# Должна выбрасываться ошибка 404.
+GET  http://127.0.0.1:8000/api/users/100500/
+Content-Type: application/json
+Authorization: Token 2dd29b0dd3823de31f642116da8cfb1b6f31af72
+
+###
+# Текущий пользователь.
+GET  http://127.0.0.1:8000/api/users/me/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+###
+# Проверка на запрос неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+GET  http://127.0.0.1:8000/api/users/me/
+Content-Type: application/json
+
+###
+# Изменение пароля.
+POST http://127.0.0.1:8000/api/users/set_password/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"new_password": "12345abcd!",
+"current_password": "12345abc!"
+}
+
+###
+# Проверка изменение пароля на невалидных данных
+# и на отсутствие обязательных полей.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/users/set_password/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"new_password": "пароль",
+"current_password": "12345abcd!"
+}
+
+###
+POST http://127.0.0.1:8000/api/users/set_password/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"new_password": " ",
+"current_password": " "
+}
+
+###
+POST http://127.0.0.1:8000/api/users/set_password/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+
+}
+
+###
+# Проверка изменения пароля неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+POST http://127.0.0.1:8000/api/users/set_password/
+Content-Type: application/json
+
+{
+"new_password": "12345abcde!",
+"current_password": "12345abcd!"
+}
+
+###
+# Список тегов.
+GET  http://127.0.0.1:8000/api/tags/
+Content-Type: application/json
+
+###
+# Получение тега.
+GET  http://127.0.0.1:8000/api/tags/4/
+Content-Type: application/json
+
+###
+# Проверка на несуществующий тег,
+# Должна выбрасываться ошибка 404.
+GET  http://127.0.0.1:8000/api/tags/100500/
+Content-Type: application/json
+
+###
+# Список рецептов.
+GET  http://127.0.0.1:8000/api/recipes/
+Content-Type: application/json
+
+###
+# Проверка изменения лимита рецептов на одной странице.
+GET  http://127.0.0.1:8000/api/recipes/?limit=10
+Content-Type: application/json
+
+###
+# Проверка на пагинацию списка рецептов.
+GET  http://127.0.0.1:8000/api/recipes/?limit=6&offset=6&page=2
+Content-Type: application/json
+
+###
+# Создание рецепта.
+POST http://127.0.0.1:8000/api/recipes/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"ingredients": [
+{
+   "id": 346,
+   "amount": 300
+},
+{
+   "id": 1684,
+   "amount": 5 
+},
+{
+   "id": 1646,
+   "amount": 50
+},
+{
+   "id": 1882,
+   "amount": 200
+}
+],
+"tags": [
+    5
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "каша гречневая с тушенкой",
+"text": "ням ням",
+"cooking_time": 20
+}
+
+
+
+###
+# Проверка на отсутствие обязательных полей.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/recipes/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+
+}
+
+###
+# Проверка создания рецепта из несуществующих данных.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/recipes/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"ingredients": [
+{
+   "id": 100500,
+   "amount": 50
+},
+{
+   "id": 100500,
+   "amount": 200 
+}
+],
+"tags": [
+    8
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "воздух",
+"text": "ням ням",
+"cooking_time": 5
+}
+
+###
+# Проверка ограничения на минимальное время приготовления.
+# Должна выбрасываться ошибка 400. 
+POST http://127.0.0.1:8000/api/recipes/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"ingredients": [
+{
+   "id": 656,
+   "amount": 100
+},
+{
+   "id": 1989,
+   "amount": 200 
+}
+],
+"tags": [
+    5
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "бутерброды с колбаской копченой",
+"text": "ням ням",
+"cooking_time": 0
+}
+
+###
+# Проверка на отсутствие обязательных полей id и amount.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/recipes/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"ingredients": [
+{
+
+}
+],
+"tags": [
+    4
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "каша ячменная",
+"text": "завтрак чемпиона",
+"cooking_time": 7
+}
+
+###
+# Проверка на создание рецепта неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+POST http://127.0.0.1:8000/api/recipes/
+Content-Type: application/json
+
+{
+"ingredients": [
+{
+"id": 2185,
+"amount": 50
+}
+],
+"tags": [
+    4
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "каша ячменная",
+"text": "завтрак чемпиона",
+"cooking_time": 7
+}
+
+###
+# Проверка создания рецепта из одинаковых ингредиентов.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/recipes/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"ingredients": [
+{
+   "id": 2185,
+   "amount": 50
+},
+{
+   "id": 2185,
+   "amount": 200 
+}
+],
+"tags": [
+    4
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "воздух",
+"text": "ням ням",
+"cooking_time": 5
+}
+
+###
+# Проверка создания из несуществующих данных.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/recipes/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"ingredients": [
+{
+   "id": 1989,
+   "amount": 50
+},
+{
+   "id": 251,
+   "amount": 200 
+}
+],
+"tags": [
+    4
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "бутерброд студенческий",
+"text": "раз-раз и готово",
+"cooking_time": 1
+}
+
+###
+# Получение рецепта.
+GET http://127.0.0.1:8000/api/recipes/11/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+###
+# Получение рецепта неавторизованным пользователем.
+GET http://127.0.0.1:8000/api/recipes/11/
+Content-Type: application/json
+
+###
+# Обновление рецепта.
+PATCH http://127.0.0.1:8000/api/recipes/11/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"ingredients": [
+{
+   "id": 1991,
+   "amount": 50
+},
+{
+   "id": 251,
+   "amount": 200 
+}
+],
+"tags": [
+    4
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "бутерброд студенческий из белого хлеба",
+"text": "раз-раз и готово",
+"cooking_time": 1
+}
+
+###
+# Обновление рецепта.
+# Ошибки в ингредиентах.
+# В приведенном примере в первом и третьем ингредиенте
+# не было ошибок (amount >= 1), а во втором были.
+# Должна выбрасываться ошибка 400.
+PATCH http://127.0.0.1:8000/api/recipes/11/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+"ingredients": [
+{
+   "id": 1137,
+   "amount": 100
+},
+{
+   "id": 898,
+   "amount": 0
+},
+{
+   "id": 1341,
+   "amount": 100
+}
+],
+"tags": [
+    5
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "салат",
+"text": "накрашил аля улю и готово",
+"cooking_time": 1
+}
+
+###
+# Обновление рецепта.
+# Проверка обновления рецепта при отсутствии обязательных полей.
+# НЕ РАБОТАЕТ, НЕ ПОКАЗВАЕТ ОТСУТСТВИЕ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ
+# ingridients, id, amount, tags. Показывает только согласно валидатору.
+PATCH http://127.0.0.1:8000/api/recipes/11/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+{
+
+}
+
+###
+# Проверка обновления рецепта неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+PATCH http://127.0.0.1:8000/api/recipes/11/
+Content-Type: application/json
+
+{
+"ingredients": [
+{
+   "id": 1997,
+   "amount": 50
+},
+{
+   "id": 251,
+   "amount": 200 
+}
+],
+"tags": [
+    4
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "бутерброд студенческий из ржаного хлеба",
+"text": "раз-раз и готово",
+"cooking_time": 1
+}
+
+###
+# Проверка обновления рецепта не его автором.
+# Недостаточно прав.
+# Должна выбрасываться ошибка 403.
+PATCH http://127.0.0.1:8000/api/recipes/11/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+
+{
+"ingredients": [
+{
+   "id": 1997,
+   "amount": 50
+},
+{
+   "id": 251,
+   "amount": 200 
+}
+],
+"tags": [
+    4
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "бутерброд студенческий из ржаного хлеба",
+"text": "раз-раз и готово",
+"cooking_time": 1
+}
+
+###
+# Проверка обновления несуществующего рецепта.
+# Должна выбрасываться ошибка 404.
+PATCH http://127.0.0.1:8000/api/recipes/100500/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+
+{
+"ingredients": [
+{
+   "id": 1997,
+   "amount": 50
+},
+{
+   "id": 251,
+   "amount": 200 
+}
+],
+"tags": [
+    4
+],
+"image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+"name": "бутерброд студенческий из ржаного хлеба",
+"text": "раз-раз и готово",
+"cooking_time": 1
+}
+
+###
+# Удаление рецепта.
+DELETE http://127.0.0.1:8000/api/recipes/13/
+Content-Type: application/json
+Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+
+###
+# Проверка на удаление рецепта неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+DELETE http://127.0.0.1:8000/api/recipes/10/
+Content-Type: application/json
+
+###
+# Проверка на удаление рецепта не его автором.
+# Должна выбрасываться ошибка 403.
+DELETE http://127.0.0.1:8000/api/recipes/10/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка на удаление несуществующего рецепта.
+# Должна выбрасываться ошибка 404.
+DELETE http://127.0.0.1:8000/api/recipes/100500/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Добавление рецепта в список покупок.
+POST http://127.0.0.1:8000/api/recipes/8/shopping_cart/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка на добавление уже ранее добавленного рецепта в список покупок.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/recipes/8/shopping_cart/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка на добавление рецепта
+# в список покупок неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+POST http://127.0.0.1:8000/api/recipes/7/shopping_cart/
+Content-Type: application/json
+
+###
+# Скачивание списка покупок.
+GET http://127.0.0.1:8000/api/recipes/download_shopping_cart/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка скачивания списка покупок неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+GET http://127.0.0.1:8000/api/recipes/download_shopping_cart/
+Content-Type: application/json
+
+###
+# Удаление рецепта из списка покупок.
+DELETE http://127.0.0.1:8000/api/recipes/8/shopping_cart/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка на удаления несуществующего рецепта из списка покупок.
+# Должна выбрасываться ошибка 400.
+DELETE http://127.0.0.1:8000/api/recipes/8/shopping_cart/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка на удаления рецепта из списка покупок
+# неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+DELETE http://127.0.0.1:8000/api/recipes/8/shopping_cart/
+Content-Type: application/json
+
+###
+# Добавление рецепта в список избранное.
+POST http://127.0.0.1:8000/api/recipes/8/favorite/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка на добавление уже ранее добавленного рецепта в список избранное.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/recipes/7/favorite/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка на добавление рецепта
+# в список избранного неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+POST http://127.0.0.1:8000/api/recipes/7/favorite/
+Content-Type: application/json
+
+###
+# Удаление рецепта из списка избранного.
+DELETE http://127.0.0.1:8000/api/recipes/7/favorite/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка на удаление несуществующего рецепта из списка избранного.
+# Должна выбрасываться ошибка 400.
+DELETE http://127.0.0.1:8000/api/recipes/7/favorite/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка на удаления рецепта из избранного
+# неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+DELETE http://127.0.0.1:8000/api/recipes/8/favorite/
+Content-Type: application/json
+
+###
+# Подписаться на пользователя. Проверка лимита рецептов.
+POST http://127.0.0.1:8000/api/users/3/subscribe/?recipes_limit=2
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка подписки на пользователя на которого уже подписан.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/users/3/subscribe/?recipes_limit=2
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка подписки на самого себя.
+# Должна выбрасываться ошибка 400.
+POST http://127.0.0.1:8000/api/users/4/subscribe/?recipes_limit=2
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка подписки неавторизованного пользователя на автора.
+# Должна выбрасываться ошибка 401.
+POST http://127.0.0.1:8000/api/users/2/subscribe/
+Content-Type: application/json
+
+###
+# Проверка подписки на несуществующего пользователя.
+# Должна выбрасываться ошибка 404.
+POST http://127.0.0.1:8000/api/users/100500/subscribe/?recipes_limit=2
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Мои подписки.
+GET http://127.0.0.1:8000/api/users/subscriptions/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка запрса подписок неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+GET http://127.0.0.1:8000/api/users/subscriptions/
+Content-Type: application/json
+
+###
+# Отписаться от пользователя.
+DELETE http://127.0.0.1:8000/api/users/3/subscribe/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка отписки от пользователя на которого не был подписан.
+# Должна выбрасываться ошибка 400.
+DELETE http://127.0.0.1:8000/api/users/2/subscribe/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Проверка отписки от автора неавторизованным пользователем.
+# Должна выбрасываться ошибка 401.
+DELETE http://127.0.0.1:8000/api/users/2/subscribe/
+Content-Type: application/json
+
+###
+# Проверка отписки от несуществующего пользователя.
+# Должна выбрасываться ошибка 404.
+DELETE http://127.0.0.1:8000/api/users/100500/subscribe/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Список ингредиентов.
+# Проверка поиска по частичному вхождению в начале названия ингредиента.
+Responses
+GET http://127.0.0.1:8000/api/ingredients/?name=паста
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+
+###
+# Получение ингредиента.
+GET http://127.0.0.1:8000/api/ingredients/1211/
+Content-Type: application/json
+Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
