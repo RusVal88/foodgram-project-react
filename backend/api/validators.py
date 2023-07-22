@@ -1,8 +1,6 @@
 import re
 
-from rest_framework import validators
-from rest_framework import serializers
-from rest_framework import status
+from rest_framework import validators, serializers
 
 
 def validate_username(value):
@@ -11,42 +9,14 @@ def validate_username(value):
         raise validators.ValidationError(
             '"me" в качестве логина использовать нельзя!'
         )
-    if not re.match(r'^[\w.@+-]+\Z', value):
-        raise validators.ValidationError(
-            'Введены некоректные символы!'
-        )
     return value
 
 
 def validate_first_last_name(value):
-    """Валидация first_name и last_name на коректность."""
-    if not re.match(r'^[\w.@+-]+\Z', value):
+    """Валидация first_name и last_name на корректность."""
+    if not re.match(r'^[\w\s.а-яА-ЯёЁ]+$', value):
         raise validators.ValidationError(
-            'Введены некоректные символы!'
-        )
-    return value
-
-
-def validate_subscription(data, user, author):
-    """Валидация подписки на автора и на себя."""
-    if user == author:
-        raise serializers.ValidationError(
-            detail='Нельзя подписаться на самого себя!',
-            code=status.HTTP_400_BAD_REQUEST,
-        )
-    if user.subscriber.filter(author=author).exists():
-        raise serializers.ValidationError(
-            detail='Данная подписка уже существует!',
-            code=status.HTTP_400_BAD_REQUEST,
-        )
-    return data
-
-
-def validate_slug(value):
-    """Валидация slug на коректность."""
-    if not re.match(r'^[-a-zA-Z0-9_]+$', value):
-        raise validators.ValidationError(
-            'Введены некоректные символы!'
+            'Введены некорректные символы!'
         )
     return value
 

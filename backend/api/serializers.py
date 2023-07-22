@@ -1,10 +1,10 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from drf_base64.fields import Base64ImageField
 
 from users.models import User
-from api.validators import (validate_subscription,
-                            validate_recipe,
+from api.validators import (validate_recipe,
                             validate_favorite_recipe)
 from recipes.models import (Tag,
                             Ingredient,
@@ -122,14 +122,15 @@ class RecipeListSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         if not request.user.is_authenticated:
             return False
-        return Favorite.objects.filter(user=request.user, recipe=obj).exists()
+        favorites = request.user.favorites.filter(recipe=obj)
+        return favorites.exists()
 
     def get_is_in_shopping_cart(self, obj):
         request = self.context.get('request')
         if not request.user.is_authenticated:
             return False
-        return ShoppingCart.objects.filter(
-            user=request.user, recipe=obj).exists()
+        shopping_cart = request.user.shopping_cart.filter(recipe=obj)
+        return shopping_cart.exists()
 
 
 class AddIngredientSerializer(serializers.ModelSerializer):
@@ -178,15 +179,17 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
         return data
 
     def create_ingredients(self, ingredients, recipe):
-        for ingredient in ingredients:
-            IngredientQuantity.objects.create(
-                recipe=recipe, ingredient=ingredient.get('id'),
+        ingredients_list = [
+            IngredientQuantity(
+                recipe=recipe,
+                ingredient=ingredient.get('id'),
                 amount=ingredient.get('amount')
-            )
+            ) for ingredient in ingredients
+        ]
+        IngredientQuantity.objects.bulk_create(ingredients_list)
 
     def add_tags(self, tags, recipe):
-        for tag in tags:
-            recipe.tags.add(tag)
+        recipe.tags.set(tags)
 
     def create(self, validated_data):
         image = validated_data.pop('image')
@@ -283,23 +286,26 @@ class SubscriptionsSerializer(UserSerializer):
             'last_name',
         )
 
-    def validate(self, data):
-        author = self.instance
-        user = self.context.get('request').user
-        validate_subscription(data, user, author)
-        return data
-
     def get_recipes(self, author):
         request = self.context.get('request')
         if request is None:
             return False
         limit = request.query_params.get('recipes_limit')
-        print(limit)
-        recipes = author.recipes.all()
-        if limit:
-            recipes = recipes[:int(limit)]
+        try:
+            if limit:
+                recipes = author.recipes.all()[:int(limit)]
+            else:
+                recipes = author.recipes.all()
+        except ValueError:
+            raise ValidationError(
+                'Некорректное значение,'
+                ' Ожидалось целое число.'
+            )
         return RecipeMinifiedSerializer(
-            recipes, read_only=True, many=True).data
+            recipes,
+            read_only=True,
+            many=True
+        ).data
 
     def get_recipes_count(self, object):
         return object.recipes.count()

@@ -19,16 +19,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
+            ingredients_list = []
             with open(os.path.join(DATA_ROOT, options['filename']), 'r',
                       encoding='utf-8') as file:
                 data = csv.reader(file)
                 next(data)
                 for row in data:
                     name, measurement_unit = row
-                    Ingredient.objects.get_or_create(
-                        name=name,
-                        measurement_unit=measurement_unit
-                    )
+                    ingredients_list.append(
+                        Ingredient(
+                        name=name, 
+                        measurement_unit=measurement_unit))
+
+            Ingredient.objects.bulk_create(ingredients_list)
             self.stdout.write(self.style.SUCCESS('Ингредиенты добавлены'))
         except ValueError:
             print('Значение неопределенно')

@@ -119,7 +119,7 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -141,3 +141,7 @@ DJOSER = {
         'current_user': 'api.serializers.UserSerializer',
     },
 }
+
+NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH = 200
+EMAIL_MAX_LENGTH = 254
+FIRST_LAST_NAME_AND_USERNAME_MAX_LENGTH = 150

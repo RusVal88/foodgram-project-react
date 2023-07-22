@@ -1,10 +1,10 @@
-from colorfield.fields import ColorField
 from django.db import models
+from django.core.validators import RegexValidator
 
-from api.validators import (validate_slug,
-                            validate_cooking_time,
-                            validate_amount,)
+from api.validators import (validate_cooking_time,
+                            validate_amount)
 from users.models import User
+from foodgram_backend.settings import NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH
 
 
 class Ingredient(models.Model):
@@ -12,12 +12,21 @@ class Ingredient(models.Model):
     name = models.CharField(
         verbose_name='Название ингредиента',
         help_text='Укажите название ингредиента!',
-        max_length=200,
+        max_length=NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH,
+        validators=[
+            RegexValidator(
+                r'^[a-zA-Z\- ]+$',
+                message=(
+                    'Название ингредиента может содержать'
+                    'только буквы, тире и пробелы.'
+                )
+            )
+        ]
     )
     measurement_unit = models.CharField(
         verbose_name='Единица измерения ингредиента',
         help_text='Укажите единицу измерения ингредиента!',
-        max_length=200,
+        max_length=NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH,
     )
 
     class Meta:
@@ -26,7 +35,6 @@ class Ingredient(models.Model):
                 fields=['name', 'measurement_unit'],
                 name='unique_measurement_unit_for_ingredient'),
         ]
-        ordering = ('id',)
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
 
@@ -39,22 +47,28 @@ class Tag(models.Model):
     name = models.CharField(
         verbose_name='Название тега',
         help_text='Укажите название тега!',
-        max_length=200,
+        max_length=NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH,
         unique=True,
     )
-    color = ColorField(
+    color = models.CharField(
         verbose_name='Цвет тега в HEX',
         help_text='Укажите цвет тега!',
-        format='hex',
         max_length=7,
         unique=True,
+        validators=[
+            RegexValidator(
+                r'^#([a-fA-F0-9]{6})$',
+                message=(
+                    'Введите корректный код цвета например #ff0000.'
+                ),
+            ),
+        ],
     )
     slug = models.SlugField(
         verbose_name='slug тега',
         help_text='Укажите slug тега!',
-        max_length=200,
-        unique=True,
-        validators=[validate_slug],
+        max_length=NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH,
+        unique=True
     )
 
     class Meta:
@@ -78,7 +92,7 @@ class Recipe(models.Model):
     name = models.CharField(
         verbose_name='Название рецепта',
         help_text='Укажите название рецепта!',
-        max_length=200,
+        max_length=NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH,
     )
     image = models.ImageField(
         verbose_name='Изображение рецепта',
@@ -88,13 +102,6 @@ class Recipe(models.Model):
     text = models.TextField(
         verbose_name='Описание рецепта',
         help_text='Добавьте описание рецепта!',
-    )
-    ingredients = models.ManyToManyField(
-        Ingredient,
-        verbose_name='Ингредиенты для рецепта',
-        help_text='Добавьте ингредиенты для рецепта!',
-        related_name='recipes',
-        through='IngredientQuantity',
     )
     tags = models.ManyToManyField(
         Tag,
@@ -128,13 +135,13 @@ class IngredientQuantity(models.Model):
         Recipe,
         verbose_name='Рецепт',
         on_delete=models.CASCADE,
-        related_name='ingredient',
+        related_name='ingredients',
     )
     ingredient = models.ForeignKey(
         Ingredient,
         verbose_name='Ингредиент',
         on_delete=models.CASCADE,
-        related_name='recipe',
+        related_name='+',
     )
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество ингредиента',
@@ -173,7 +180,7 @@ class Favorite(models.Model):
         Recipe,
         verbose_name='Рецепт',
         on_delete=models.CASCADE,
-        related_name='favorites',
+        related_name='+',
     )
 
     class Meta:
@@ -202,7 +209,7 @@ class ShoppingCart(models.Model):
         Recipe,
         verbose_name='Рецепт',
         on_delete=models.CASCADE,
-        related_name='shopping_cart',
+        related_name='+',
     )
 
     class Meta:

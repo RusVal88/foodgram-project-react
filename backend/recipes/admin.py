@@ -4,7 +4,8 @@ from recipes.models import (Tag,
                             Ingredient,
                             Recipe,
                             Favorite,
-                            ShoppingCart)
+                            ShoppingCart,
+                            IngredientQuantity)
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -36,7 +37,7 @@ class IngredientAdmin(admin.ModelAdmin):
 
 class IngredientQuantityInline(admin.TabularInline):
     """Админ зона(класс редактирования связанных объектов)."""
-    model = Recipe.ingredients.through
+    model = IngredientQuantity
     min_num = 1
     extra = 1
 

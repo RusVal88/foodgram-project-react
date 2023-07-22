@@ -3,6 +3,8 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 
 from api.validators import validate_username, validate_first_last_name
+from foodgram_backend.settings import (EMAIL_MAX_LENGTH,
+                                       FIRST_LAST_NAME_AND_USERNAME_MAX_LENGTH)
 
 
 class User(AbstractUser):
@@ -12,26 +14,26 @@ class User(AbstractUser):
     email = models.EmailField(
         verbose_name='Адрес электронной почты',
         help_text='Укажите адрес электронной почты!',
-        max_length=254,
+        max_length=EMAIL_MAX_LENGTH,
         unique=True,
     )
     username = models.CharField(
         verbose_name='Логин пользователя',
         help_text='Укажите логин!',
-        max_length=150,
+        max_length=FIRST_LAST_NAME_AND_USERNAME_MAX_LENGTH,
         unique=True,
         validators=[validate_username, UnicodeUsernameValidator()],
     )
     first_name = models.CharField(
         verbose_name='Имя пользователя',
         help_text='Укажите имя!',
-        max_length=150,
+        max_length=FIRST_LAST_NAME_AND_USERNAME_MAX_LENGTH,
         validators=[validate_first_last_name],
     )
     last_name = models.CharField(
         verbose_name='Фамилия пользователя',
         help_text='Укажите фамилию!',
-        max_length=150,
+        max_length=FIRST_LAST_NAME_AND_USERNAME_MAX_LENGTH,
         validators=[validate_first_last_name],
     )
 

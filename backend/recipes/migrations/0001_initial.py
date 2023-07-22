@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(help_text='Укажите название тега!', max_length=200, unique=True, verbose_name='Название тега')),
                 ('color', colorfield.fields.ColorField(default='#FFFFFF', help_text='Укажите цвет тега!', image_field=None, max_length=7, samples=None, unique=True, verbose_name='Цвет тега в HEX')),
-                ('slug', models.SlugField(help_text='Укажите slug тега!', max_length=200, unique=True, validators=[api.validators.validate_slug], verbose_name='slug тега')),
+                ('slug', models.SlugField(help_text='Укажите slug тега!', max_length=200, unique=True, verbose_name='slug тега')),
             ],
             options={
                 'verbose_name': 'Тег',
