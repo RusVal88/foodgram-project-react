@@ -28,9 +28,10 @@ class Command(BaseCommand):
                     name, measurement_unit = row
                     ingredients_list.append(
                         Ingredient(
-                        name=name, 
-                        measurement_unit=measurement_unit))
-
+                            name=name,
+                            measurement_unit=measurement_unit
+                        )
+                    )
             Ingredient.objects.bulk_create(ingredients_list)
             self.stdout.write(self.style.SUCCESS('Ингредиенты добавлены'))
         except ValueError:
