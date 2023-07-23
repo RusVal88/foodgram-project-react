@@ -8,10 +8,10 @@ POST http://127.0.0.1:8000/api/users/
 Content-Type: application/json
 
 {
-"email": "vinogradov@yandex.com",
-"username": "vinograd",
-"first_name": "Евгений",
-"last_name": "Виноградов",
+"email": "suhanoff@yandex.com",
+"username": "suhoi",
+"first_name": "Егор",
+"last_name": "Суханоф",
 "password": "12345abc!"
 }
 
@@ -56,10 +56,10 @@ POST http://127.0.0.1:8000/api/users/
 Content-Type: application/json
 
 {
-"email": "egorov@yandex.com",
-"username": "egdim",
-"first_name": "Vadim",
-"last_name": "Egorov",
+"email": "pechkin@yandex.com",
+"username": "pechka",
+"first_name": "Евгений",
+"last_name": "Печкин",
 "password": "12345abc!"
 }
 
@@ -69,7 +69,7 @@ POST http://127.0.0.1:8000/api/auth/token/login/
 Content-Type: application/json
 
 {
-"email": "vinogradov@yandex.com",
+"email": "suhanoff@yandex.com",
 "password": "12345abc!"
 }
 
@@ -77,7 +77,7 @@ Content-Type: application/json
 # Удаление токена.
 POST http://127.0.0.1:8000/api/auth/token/logout/
 Content-Type: application/json
-Authorization: Token 699734b84a494449e181c9f9babedca27dc99fa4
+Authorization: Token 054e6bb2c6370b64a728afc66bccc097992b0e0a
 
 ###
 # Проверка на удаления токена неавторизованным пользователем.
@@ -89,7 +89,7 @@ Content-Type: application/json
 # Профиль пользователя.
 GET  http://127.0.0.1:8000/api/users/3/
 Content-Type: application/json
-Authorization: Token 8affeb45e25c0c59dcdd79c55a425132aa97d618
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на запрос неавторизованным пользователем.
@@ -102,13 +102,13 @@ Content-Type: application/json
 # Должна выбрасываться ошибка 404.
 GET  http://127.0.0.1:8000/api/users/100500/
 Content-Type: application/json
-Authorization: Token 13e973e7a777cb0927e77b3d8f8926159f99200e
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Текущий пользователь.
 GET  http://127.0.0.1:8000/api/users/me/
 Content-Type: application/json
-Authorization: Token 8affeb45e25c0c59dcdd79c55a425132aa97d618
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на запрос неавторизованным пользователем.
@@ -120,7 +120,7 @@ Content-Type: application/json
 # Изменение пароля.
 POST http://127.0.0.1:8000/api/users/set_password/
 Content-Type: application/json
-Authorization: Token 8affeb45e25c0c59dcdd79c55a425132aa97d618
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 "new_password": "12345abcd!",
@@ -133,7 +133,7 @@ Authorization: Token 8affeb45e25c0c59dcdd79c55a425132aa97d618
 # Должна выбрасываться ошибка 400.
 POST http://127.0.0.1:8000/api/users/set_password/
 Content-Type: application/json
-Authorization: Token 13e973e7a777cb0927e77b3d8f8926159f99200e
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 "new_password": "пароль",
@@ -143,7 +143,7 @@ Authorization: Token 13e973e7a777cb0927e77b3d8f8926159f99200e
 ###
 POST http://127.0.0.1:8000/api/users/set_password/
 Content-Type: application/json
-Authorization: Token 13e973e7a777cb0927e77b3d8f8926159f99200e
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 "new_password": " ",
@@ -153,7 +153,7 @@ Authorization: Token 13e973e7a777cb0927e77b3d8f8926159f99200e
 ###
 POST http://127.0.0.1:8000/api/users/set_password/
 Content-Type: application/json
-Authorization: Token 13e973e7a777cb0927e77b3d8f8926159f99200e
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 
@@ -190,28 +190,28 @@ Content-Type: application/json
 # Список рецептов.
 GET  http://127.0.0.1:8000/api/recipes/
 Content-Type: application/json
-Authorization: Token 13e973e7a777cb0927e77b3d8f8926159f99200e
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Список рецептов.
 # Проверка фильтрации списка покупок.
 GET  http://127.0.0.1:8000/api/recipes/?is_in_shopping_cart=1
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Список рецептов.
 # Проверка фильтрации списка избранного.
 GET  http://127.0.0.1:8000/api/recipes/?is_favorited=1
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Список рецептов.
 # Проверка фильтрации по тегам.
 GET  http://127.0.0.1:8000/api/recipes/?tags=lunch&tags=breakfast
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка изменения лимита рецептов на одной странице.
@@ -227,7 +227,7 @@ Content-Type: application/json
 # Создание рецепта.
 POST http://127.0.0.1:8000/api/recipes/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 "ingredients": [
@@ -264,7 +264,7 @@ Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
 # Должна выбрасываться ошибка 400.
 POST http://127.0.0.1:8000/api/recipes/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 
@@ -275,7 +275,7 @@ Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
 # Должна выбрасываться ошибка 400.
 POST http://127.0.0.1:8000/api/recipes/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 "ingredients": [
@@ -302,7 +302,7 @@ Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
 # Должна выбрасываться ошибка 400. 
 POST http://127.0.0.1:8000/api/recipes/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 "ingredients": [
@@ -329,7 +329,7 @@ Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
 # Должна выбрасываться ошибка 400.
 POST http://127.0.0.1:8000/api/recipes/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 "ingredients": [
@@ -373,7 +373,7 @@ Content-Type: application/json
 # Должна выбрасываться ошибка 400.
 POST http://127.0.0.1:8000/api/recipes/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 "ingredients": [
@@ -399,7 +399,7 @@ Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
 # Получение рецепта.
 GET http://127.0.0.1:8000/api/recipes/12/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Получение рецепта неавторизованным пользователем.
@@ -408,9 +408,9 @@ Content-Type: application/json
 
 ###
 # Обновление рецепта.
-PATCH http://127.0.0.1:8000/api/recipes/16/
+PATCH http://127.0.0.1:8000/api/recipes/18/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 "ingredients": [
@@ -438,9 +438,9 @@ Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
 # В приведенном примере в первом и третьем ингредиенте
 # не было ошибок (amount >= 1), а во втором были.
 # Должна выбрасываться ошибка 400.
-PATCH http://127.0.0.1:8000/api/recipes/16/
+PATCH http://127.0.0.1:8000/api/recipes/18/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 "ingredients": [
@@ -469,11 +469,9 @@ Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
 ###
 # Обновление рецепта.
 # Проверка обновления рецепта при отсутствии обязательных полей.
-# НЕ РАБОТАЕТ, НЕ ПОКАЗВАЕТ ОТСУТСТВИЕ ОБЯЗАТЕЛЬНЫХ ПОЛЕЙ
-# ingridients, id, amount, tags. Показывает только согласно валидатору.
-PATCH http://127.0.0.1:8000/api/recipes/16/
+PATCH http://127.0.0.1:8000/api/recipes/18/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 {
 
@@ -509,7 +507,7 @@ Content-Type: application/json
 # Проверка обновления рецепта не его автором.
 # Недостаточно прав.
 # Должна выбрасываться ошибка 403.
-PATCH http://127.0.0.1:8000/api/recipes/16/
+PATCH http://127.0.0.1:8000/api/recipes/18/
 Content-Type: application/json
 Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
 
@@ -539,7 +537,7 @@ Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
 # Должна выбрасываться ошибка 404.
 PATCH http://127.0.0.1:8000/api/recipes/100500/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token fdea94cf817a47e95f39b02fe1d9473f5b8a547b
 
 
 {
@@ -564,9 +562,9 @@ Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
 
 ###
 # Удаление рецепта.
-DELETE http://127.0.0.1:8000/api/recipes/16/
+DELETE http://127.0.0.1:8000/api/recipes/18/
 Content-Type: application/json
-Authorization: Token 97e6f44b79a4e11bf7c471f0caf1d06b9c20768c
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на удаление рецепта неавторизованным пользователем.
@@ -579,27 +577,27 @@ Content-Type: application/json
 # Должна выбрасываться ошибка 403.
 DELETE http://127.0.0.1:8000/api/recipes/10/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token fdea94cf817a47e95f39b02fe1d9473f5b8a547b
 
 ###
 # Проверка на удаление несуществующего рецепта.
 # Должна выбрасываться ошибка 404.
 DELETE http://127.0.0.1:8000/api/recipes/100500/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token fdea94cf817a47e95f39b02fe1d9473f5b8a547b
 
 ###
 # Добавление рецепта в список покупок.
-POST http://127.0.0.1:8000/api/recipes/7/shopping_cart/
+POST http://127.0.0.1:8000/api/recipes/5/shopping_cart/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на добавление уже ранее добавленного рецепта в список покупок.
 # Должна выбрасываться ошибка 400.
 POST http://127.0.0.1:8000/api/recipes/7/shopping_cart/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на добавление рецепта
@@ -612,7 +610,7 @@ Content-Type: application/json
 # Скачивание списка покупок.
 GET http://127.0.0.1:8000/api/recipes/download_shopping_cart/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка скачивания списка покупок неавторизованным пользователем.
@@ -624,7 +622,7 @@ Content-Type: application/json
 # Удаление рецепта из списка покупок.
 DELETE http://127.0.0.1:8000/api/recipes/7/shopping_cart/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на удаление рецепта из списка покупок,
@@ -632,7 +630,7 @@ Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
 # Должна выбрасываться ошибка 400.
 DELETE http://127.0.0.1:8000/api/recipes/15/shopping_cart/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на удаления рецепта из списка покупок
@@ -643,16 +641,16 @@ Content-Type: application/json
 
 ###
 # Добавление рецепта в список избранное.
-POST http://127.0.0.1:8000/api/recipes/7/favorite/
+POST http://127.0.0.1:8000/api/recipes/5/favorite/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на добавление уже ранее добавленного рецепта в список избранное.
 # Должна выбрасываться ошибка 400.
 POST http://127.0.0.1:8000/api/recipes/7/favorite/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на добавление рецепта
@@ -665,7 +663,7 @@ Content-Type: application/json
 # Удаление рецепта из списка избранного.
 DELETE http://127.0.0.1:8000/api/recipes/7/favorite/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на удаление рецепта из списка избранного,
@@ -673,7 +671,7 @@ Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
 # Должна выбрасываться ошибка 400.
 DELETE http://127.0.0.1:8000/api/recipes/15/favorite/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка на удаления рецепта из избранного
@@ -684,31 +682,31 @@ Content-Type: application/json
 
 ###
 # Подписаться на пользователя. Проверка лимита рецептов.
-# Должна выбрасываться ошибка 400.
 POST http://127.0.0.1:8000/api/users/5/subscribe/?recipes_limit=2
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
-# Подписаться на пользователя. Проверка лимита рецептов.
+# Подписаться на пользователя.
+# Проверка лимита рецептов числом с плавающей точкой.
 # Должна выбрасываться ошибка 400.
 POST http://127.0.0.1:8000/api/users/1/subscribe/?recipes_limit=2.5
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка подписки на пользователя на которого уже подписан.
 # Должна выбрасываться ошибка 400.
-POST http://127.0.0.1:8000/api/users/1/subscribe/?recipes_limit=2
+POST http://127.0.0.1:8000/api/users/5/subscribe/?recipes_limit=2
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка подписки на самого себя.
 # Должна выбрасываться ошибка 400.
-POST http://127.0.0.1:8000/api/users/4/subscribe/?recipes_limit=2
+POST http://127.0.0.1:8000/api/users/8/subscribe/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token fdea94cf817a47e95f39b02fe1d9473f5b8a547b
 
 ###
 # Проверка подписки неавторизованного пользователя на автора.
@@ -721,13 +719,13 @@ Content-Type: application/json
 # Должна выбрасываться ошибка 404.
 POST http://127.0.0.1:8000/api/users/100500/subscribe/?recipes_limit=2
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Мои подписки.
 GET http://127.0.0.1:8000/api/users/subscriptions/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка запрса подписок неавторизованным пользователем.
@@ -739,14 +737,14 @@ Content-Type: application/json
 # Отписаться от пользователя.
 DELETE http://127.0.0.1:8000/api/users/1/subscribe/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка отписки от пользователя на которого не был подписан.
 # Должна выбрасываться ошибка 400.
-DELETE http://127.0.0.1:8000/api/users/5/subscribe/
+DELETE http://127.0.0.1:8000/api/users/2/subscribe/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Проверка отписки от автора неавторизованным пользователем.
@@ -759,17 +757,17 @@ Content-Type: application/json
 # Должна выбрасываться ошибка 404.
 DELETE http://127.0.0.1:8000/api/users/100500/subscribe/
 Content-Type: application/json
-Authorization: Token 5698666e66a0cb1dfd024a5b8c309a204a32a8a1
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Список ингредиентов.
 # Проверка поиска по частичному вхождению в начале названия ингредиента.
 GET http://127.0.0.1:8000/api/ingredients/?name=паста
 Content-Type: application/json
-Authorization: Token 13e973e7a777cb0927e77b3d8f8926159f99200e
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001
 
 ###
 # Получение ингредиента.
 GET http://127.0.0.1:8000/api/ingredients/28/
 Content-Type: application/json
-Authorization: Token 13e973e7a777cb0927e77b3d8f8926159f99200e
+Authorization: Token 9f2dff3a648dccec89ad1de8cf760bf544a02001

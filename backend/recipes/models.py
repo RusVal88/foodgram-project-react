@@ -2,7 +2,8 @@ from django.db import models
 from django.core.validators import RegexValidator
 
 from api.validators import (validate_cooking_time,
-                            validate_amount)
+                            validate_amount,
+                            validate_name)
 from users.models import User
 from foodgram_backend.settings import NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH
 
@@ -13,15 +14,7 @@ class Ingredient(models.Model):
         verbose_name='Название ингредиента',
         help_text='Укажите название ингредиента!',
         max_length=NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH,
-        validators=[
-            RegexValidator(
-                r'^[a-zA-Z\- ]+$',
-                message=(
-                    'Название ингредиента может содержать'
-                    'только буквы, тире и пробелы.'
-                )
-            )
-        ]
+        validators=[validate_name],
     )
     measurement_unit = models.CharField(
         verbose_name='Единица измерения ингредиента',
@@ -49,6 +42,7 @@ class Tag(models.Model):
         help_text='Укажите название тега!',
         max_length=NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH,
         unique=True,
+        validators=[validate_name],
     )
     color = models.CharField(
         verbose_name='Цвет тега в HEX',
@@ -57,7 +51,7 @@ class Tag(models.Model):
         unique=True,
         validators=[
             RegexValidator(
-                r'^#([a-fA-F0-9]{6})$',
+                r'^#([a-fA-F0-9]{3,6})$',
                 message=(
                     'Введите корректный код цвета например #ff0000.'
                 ),
@@ -93,6 +87,7 @@ class Recipe(models.Model):
         verbose_name='Название рецепта',
         help_text='Укажите название рецепта!',
         max_length=NAME_SLUG_MEASUREMENT_UNIT_MAX_LENGTH,
+        validators=[validate_name],
     )
     image = models.ImageField(
         verbose_name='Изображение рецепта',

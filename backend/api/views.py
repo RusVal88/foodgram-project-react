@@ -151,6 +151,7 @@ class RecipeViewSet(ModelViewSet):
             return RecipeListSerializer
         return RecipeCreateUpdateSerializer
 
+    """
     @action(
         methods=('POST', 'DELETE'),
         detail=True
@@ -253,6 +254,92 @@ class RecipeViewSet(ModelViewSet):
         return Response(
             {'detail': message},
             status=status.HTTP_204_NO_CONTENT
+        )
+    """
+
+    def create_or_delete_item(
+            self,
+            request,
+            pk,
+            model_class,
+            serializer_class,
+            message_exists,
+            message_post,
+            message_http404,
+            message_delete
+    ):
+        user = self.request.user
+        recipe = get_object_or_404(Recipe, pk=pk)
+        if request.method == 'POST':
+            if model_class.objects.filter(
+                user=user,
+                recipe=recipe
+            ).exists():
+                return Response(
+                    {'detail': message_exists},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            data = {
+                'user': user.id,
+                'recipe': recipe.id
+            }
+            serializer = serializer_class(
+                data=data,
+                context={'request': request}
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(
+                {'detail': message_post, 'data': serializer.data},
+                status=status.HTTP_201_CREATED
+            )
+        try:
+            item = get_object_or_404(
+                model_class,
+                user=user,
+                recipe=recipe
+            )
+        except Http404:
+            return Response(
+                {'detail': message_http404},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        item.delete()
+        return Response(
+            {'detail': message_delete},
+            status=status.HTTP_204_NO_CONTENT
+        )
+
+    @action(
+        methods=['POST', 'DELETE'],
+        detail=True
+    )
+    def favorite(self, request, pk=None):
+        return self.create_or_delete_item(
+            request,
+            pk,
+            model_class=Favorite,
+            serializer_class=FavoriteSerializer,
+            message_exists='Рецепт уже присутствует в избранном!',
+            message_post='Рецепт добавлен в избранное!',
+            message_http404='Рецепт не найден в избранном!',
+            message_delete='Рецепт удалён из избранного!'
+        )
+
+    @action(
+        methods=['POST', 'DELETE'],
+        detail=True
+    )
+    def shopping_cart(self, request, pk=None):
+        return self.create_or_delete_item(
+            request,
+            pk,
+            model_class=ShoppingCart,
+            serializer_class=ShoppingCartSerializer,
+            message_exists='Рецепт уже присутствует в списке покупок!',
+            message_post='Рецепт добавлен в список покупок!',
+            message_http404='Рецепт не найден в списке покупок!',
+            message_delete='Рецепт удалён из списка покупок!'
         )
 
     @action(

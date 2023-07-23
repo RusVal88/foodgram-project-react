@@ -12,9 +12,9 @@ def validate_username(value):
     return value
 
 
-def validate_first_last_name(value):
-    """Валидация first_name и last_name на корректность."""
-    if not re.match(r'^[\w\s.а-яА-ЯёЁ]+$', value):
+def validate_name(value):
+    """Валидация name на корректность."""
+    if not re.match(r'^[а-яА-ЯёЁa-zA-Z\s]+$', value):
         raise validators.ValidationError(
             'Введены некорректные символы!'
         )

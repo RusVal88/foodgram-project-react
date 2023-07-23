@@ -258,7 +258,6 @@ class ShoppingCartSerializer(FavoriteSerializer):
     """
     Сериализатор добавления и удаления в список покупок.
     """
-
     class Meta(FavoriteSerializer.Meta):
         model = ShoppingCart
 

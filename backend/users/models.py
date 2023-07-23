@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 
-from api.validators import validate_username, validate_first_last_name
+from api.validators import validate_username, validate_name
 from foodgram_backend.settings import (EMAIL_MAX_LENGTH,
                                        FIRST_LAST_NAME_AND_USERNAME_MAX_LENGTH)
 
@@ -28,13 +28,13 @@ class User(AbstractUser):
         verbose_name='Имя пользователя',
         help_text='Укажите имя!',
         max_length=FIRST_LAST_NAME_AND_USERNAME_MAX_LENGTH,
-        validators=[validate_first_last_name],
+        validators=[validate_name],
     )
     last_name = models.CharField(
         verbose_name='Фамилия пользователя',
         help_text='Укажите фамилию!',
         max_length=FIRST_LAST_NAME_AND_USERNAME_MAX_LENGTH,
-        validators=[validate_first_last_name],
+        validators=[validate_name],
     )
 
     class Meta:
