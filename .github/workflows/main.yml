@@ -121,7 +121,7 @@ jobs:
           sudo docker compose -f docker-compose.yml exec backend python manage.py migrate
           sudo docker compose -f docker-compose.yml exec backend python manage.py collectstatic --noinput
           sudo docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. /app/static/
-          sudo docker compose -f docker-compose.yml exec backend python manage.py loaddata /data/data.json
+          sudo docker compose -f docker-compose.yml exec backend python manage.py loaddata data.json
           sudo docker compose -f docker-compose.yml exec backend cp -r /app/recipes/images /app/media
   send_message:
     runs-on: ubuntu-latest
