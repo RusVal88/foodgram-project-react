@@ -33,7 +33,7 @@ services:
     container_name: nginx
     image: nginx:1.19.3
     ports:
-      - "8000:80"
+      - "9090:80"
     volumes:
       - type: bind
         source: nginx.conf
