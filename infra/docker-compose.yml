@@ -36,7 +36,7 @@ services:
       - "8000:80"
     volumes:
       - type: bind
-        source: infra/nginx.conf
+        source: nginx.conf
         target: /etc/nginx/conf.d/default.conf
       - ./frontend/build:/usr/share/nginx/html/
       - ./docs/:/usr/share/nginx/html/api/docs/
