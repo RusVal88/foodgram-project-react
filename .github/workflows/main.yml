@@ -115,7 +115,6 @@ jobs:
           cd foodgram
           touch .env
           echo "${{ secrets.ENV }}" > .env
-          cd infra
           sudo docker compose -f docker-compose.yml pull
           sudo docker compose -f docker-compose.yml down
           sudo docker compose -f docker-compose.yml up -d
