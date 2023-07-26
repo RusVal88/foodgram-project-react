@@ -89,8 +89,3 @@ def validate_favorite_recipe(request, recipe, Favorite):
     if not request or not request.user.is_authenticated:
         raise serializers.ValidationError(
             'Пользователь не аутентифицирован!')
-
-    if Favorite.objects.filter(user=request.user, recipe=recipe).exists():
-        raise serializers.ValidationError({
-            'error': 'Данный рецепт уже имеется!'
-        })
