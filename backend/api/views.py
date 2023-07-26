@@ -31,6 +31,7 @@ from recipes.models import (Tag,
 from api.filters import (IngredientsFilter,
                          RecipesFilter)
 from api.permissions import IsAuthorOrReadOnly
+from api.paginations import LimitPaginator
 
 
 class UserViewSet(GenericViewSet):
@@ -42,7 +43,7 @@ class UserViewSet(GenericViewSet):
     queryset = User.objects.all()
     search_fields = ('username', 'email')
     permission_classes = (AllowAny,)
-    pagination_class = LimitOffsetPagination
+    pagination_class = LimitPaginator
 
     @action(
         methods=['POST', 'DELETE'],
@@ -144,7 +145,7 @@ class RecipeViewSet(ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipesFilter
     permission_classes = (IsAuthorOrReadOnly,)
-    pagination_class = LimitOffsetPagination
+    pagination_class = LimitPaginator
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
