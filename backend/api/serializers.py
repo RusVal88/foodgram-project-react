@@ -83,57 +83,6 @@ class IngredientQuantitySerializer(serializers.ModelSerializer):
         )
 
 
-class RecipeListSerializer(serializers.ModelSerializer):
-    """Сериализатор списка рецептов."""
-    tags = TagSerializer(many=True, read_only=True)
-    author = UserSerializer(read_only=True)
-    ingredients = IngredientQuantitySerializer(
-        many=True,
-        read_only=True,
-        source='ingredient'
-    )
-    is_favorited = serializers.SerializerMethodField(
-        read_only=True
-    )
-    is_in_shopping_cart = serializers.SerializerMethodField(
-        read_only=True
-    )
-
-    class Meta:
-        model = Recipe
-        fields = (
-            'id',
-            'tags',
-            'author',
-            'ingredients',
-            'is_favorited',
-            'is_in_shopping_cart',
-            'name',
-            'image',
-            'text',
-            'cooking_time',
-        )
-    """
-    def get_ingredients(self, obj):
-        queryset = IngredientQuantity.objects.filter(recipe=obj)
-        return IngredientQuantitySerializer(queryset, many=True).data
-    """
-
-    def get_is_favorited(self, obj):
-        request = self.context.get('request')
-        if not request.user.is_authenticated:
-            return False
-        favorites = request.user.favorites.filter(recipe=obj)
-        return favorites.exists()
-
-    def get_is_in_shopping_cart(self, obj):
-        request = self.context.get('request')
-        if not request.user.is_authenticated:
-            return False
-        shopping_cart = request.user.shopping_cart.filter(recipe=obj)
-        return shopping_cart.exists()
-
-
 class AddIngredientSerializer(serializers.ModelSerializer):
     """Сериализатор добавления ингредиентов в рецепт."""
     id = serializers.PrimaryKeyRelatedField(
@@ -218,6 +167,56 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
         self.add_tags(validated_data.pop('tags'), instance)
         self.create_ingredients(validated_data.pop('ingredients'), instance)
         return super().update(instance, validated_data)
+
+
+class RecipeListSerializer(serializers.ModelSerializer):
+    """Сериализатор списка рецептов."""
+    tags = TagSerializer(many=True, read_only=True)
+    author = UserSerializer(read_only=True)
+    ingredients = IngredientQuantitySerializer(
+        many=True,
+        read_only=True,
+        source='ingredient'
+    )
+    is_favorited = serializers.SerializerMethodField(
+        read_only=True
+    )
+    is_in_shopping_cart = serializers.SerializerMethodField(
+        read_only=True
+    )
+
+    class Meta:
+        model = Recipe
+        fields = (
+            'id',
+            'tags',
+            'author',
+            'ingredients',
+            'is_favorited',
+            'is_in_shopping_cart',
+            'name',
+            'image',
+            'text',
+            'cooking_time',
+        )
+
+    def get_ingredients(self, obj):
+        queryset = IngredientQuantity.objects.filter(recipe=obj)
+        return IngredientQuantitySerializer(queryset, many=True).data
+
+    def get_is_favorited(self, obj):
+        request = self.context.get('request')
+        if not request.user.is_authenticated:
+            return False
+        favorites = request.user.favorites.filter(recipe=obj)
+        return favorites.exists()
+
+    def get_is_in_shopping_cart(self, obj):
+        request = self.context.get('request')
+        if not request.user.is_authenticated:
+            return False
+        shopping_cart = request.user.shopping_cart.filter(recipe=obj)
+        return shopping_cart.exists()
 
 
 class RecipeMinifiedSerializer(serializers.ModelSerializer):
