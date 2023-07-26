@@ -90,7 +90,7 @@ class RecipeListSerializer(serializers.ModelSerializer):
     ingredients = IngredientQuantitySerializer(
         many=True,
         read_only=True,
-        source='recipe'
+        source='ingredients'
     )
     is_favorited = serializers.SerializerMethodField(
         read_only=True
