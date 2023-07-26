@@ -213,7 +213,7 @@ const RecipeEdit = ({ onItemDelete }) => {
             />}
           </div>
           <div className={styles.ingredientsAdded}>
-            {recipeIngredients && recipeIngredients.map(item => {
+            {recipeIngredients.map(item => {
               return <div
                 className={styles.ingredientsAddedItem}
               >
