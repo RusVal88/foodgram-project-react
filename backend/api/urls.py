@@ -7,8 +7,6 @@ from api.views import (UserViewSet,
                        RecipeViewSet)
 
 
-app_name = 'api'
-
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='users')
 router.register(r'tags', TagViewSet, basename='tags')

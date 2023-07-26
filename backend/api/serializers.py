@@ -90,7 +90,7 @@ class RecipeListSerializer(serializers.ModelSerializer):
     ingredients = IngredientQuantitySerializer(
         many=True,
         read_only=True,
-        source='ingredient'
+        source='ingredients_list'
     )
     is_favorited = serializers.SerializerMethodField(
         read_only=True
@@ -113,10 +113,11 @@ class RecipeListSerializer(serializers.ModelSerializer):
             'text',
             'cooking_time',
         )
-
+    """
     def get_ingredients(self, obj):
         queryset = IngredientQuantity.objects.filter(recipe=obj)
         return IngredientQuantitySerializer(queryset, many=True).data
+    """
 
     def get_is_favorited(self, obj):
         request = self.context.get('request')
